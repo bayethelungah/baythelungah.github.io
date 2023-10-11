@@ -60,7 +60,7 @@ function ProjectSection() {
   return (
     <main className=" h-screen flex flex-col justify-center items-center font-bold gap-3">
       <h1 className="text-white text-4xl">Projects</h1>
-      <div className="w-2/3 flex justify-center items-center gap-3">
+      <div className="w-2/3 flex justify-center items-center gap-5">
         <Project
           title="Ecommerce"
           description="An Ecommerce store"
