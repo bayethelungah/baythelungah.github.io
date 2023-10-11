@@ -15,7 +15,7 @@ export interface ProjectProps {
 }
 
 const Project = forwardRef<HTMLDivElement, ProjectProps>(
-  ({ title, description, url, githubUrl, rawTags }, ref) => {
+  ({ title, description, githubUrl, rawTags }, ref) => {
     const tags = rawTags.split(",");
 
     return (
