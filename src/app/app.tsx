@@ -2,11 +2,7 @@ import { motion } from "framer-motion";
 import Navigation from "components/Navigation";
 import Project from "components/project";
 import Card from "components/organisms/card";
-import Logos from "components/atoms/logos";
-import {
-  ComputerDesktopIcon,
-  ArrowDownIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowDownIcon } from "@heroicons/react/24/outline";
 import Button from "components/atoms/button";
 
 const App = () => {
