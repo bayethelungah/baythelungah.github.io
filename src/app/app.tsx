@@ -1,15 +1,65 @@
-import { motion } from "framer-motion";
+import { animate, motion } from "framer-motion";
 import Navigation from "components/Navigation";
 import Project from "components/project";
 import Card from "components/organisms/card";
 import { ArrowDownIcon } from "@heroicons/react/24/outline";
 import Button from "components/atoms/button";
+import { useEffect, ReactNode } from "react";
+import {
+  Link,
+  Button as Btn,
+  Element,
+  Events,
+  animateScroll as scroll,
+  scrollSpy,
+  //@ts-ignore
+} from "react-scroll";
+
+const scrollToBottom = () => {
+  scroll.scrollToBottom({ duration: 600, smooth: true });
+};
+
+const scrollToTop = () => {
+  scroll.scrollToTop({ duration: 600, smooth: true });
+};
+
+const scrollToProjects = () => {
+  scroll.scrollTo(window.innerHeight * 2);
+};
 
 const App = () => {
+  useEffect(() => {
+    // Registering the 'begin' event and logging it to the console when triggered.
+    //@ts-ignore
+    Events.scrollEvent.register("begin", (to, element) => {
+      console.log("begin", to, element);
+    });
+
+    // Registering the 'end' event and logging it to the console when triggered.
+    //@ts-ignore
+    Events.scrollEvent.register("end", (to, element) => {
+      console.log("end", to, element);
+    });
+
+    // Updating scrollSpy when the component mounts.
+    scrollSpy.update();
+
+    // Returning a cleanup function to remove the registered events when the component unmounts.
+    return () => {
+      Events.scrollEvent.remove("begin");
+      Events.scrollEvent.remove("end");
+    };
+  }, []);
+
   return (
     <>
-      <Navigation />
+      <Navigation
+        scrollToContact={scrollToBottom}
+        scrollToProjects={scrollToProjects}
+        scrollToHero={scrollToTop}
+      />
       <Hero />
+      <About />
       <ProjectSection />
       <ContactInfo />
     </>
@@ -18,11 +68,11 @@ const App = () => {
 
 function Hero() {
   return (
-    <main className=" h-screen flex justify-center items-start flex-col gap-3 font-bold ml-12">
+    <main className=" h-screen flex justify-center items-start flex-col gap-3 font-bold ml-48">
       <motion.p className="text-blue-600">Hi, My name is</motion.p>
       <motion.p
-        initial={{ y: 100, scale: 0 }}
-        animate={{ y: 0, scale: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.7 }}
         className=" text-8xl text-white font-bold m-0"
       >
@@ -56,34 +106,65 @@ function Hero() {
   );
 }
 
-function ProjectSection() {
+function About() {
   return (
-    <main className=" h-screen flex flex-col justify-center items-center font-bold gap-3">
-      <h1 className="text-white text-4xl">Projects</h1>
-      <div className="w-2/3 flex justify-center items-center gap-5">
-        <Project
-          title="Ecommerce"
-          description="An Ecommerce store"
-          githubUrl="https://github.com/bayethelungah/Ecommerce"
-          url=""
-          rawTags="Next.js,Typescript,SQL"
-        />
-        <Project
-          title="Genetic Simulation"
-          description="An simulation of an genetic algorithm"
-          githubUrl=""
-          url=""
-          rawTags="Java"
-        />
-        <Project
-          title="Chess"
-          description="an application to play chess"
-          githubUrl=""
-          url=""
-          rawTags="Typescript,HTML"
-        />
+    <main className="h-screen flex flex-col justify-center items-center font-bold gap-3">
+      <div className="flex justify-center items-center">
+        <Card
+          title="About Me"
+          className=" w-2/3 flex justify-center items-center"
+        >
+          <p className="text-white">
+            Welcome to my coding realm! I'm Bayethe Lungah (but I go by Tay), a
+            dedicated software developer with a fervor for transforming complex
+            problems into elegant solutions. Armed with a solid foundation in
+            Javascript, C#, Java and Python, I thrive in the dynamic world of
+            code. Whether I'm architecting robust systems, debugging intricate
+            issues, or exploring the latest in tech trends, I approach each line
+            with precision and passion. With hands-on experience in Next.js,
+            Java Spring and ASP.NET. I'm not just a developer; I'm a problem
+            solver and a tech enthusiast. Let's embark on this coding adventure
+            together, where every challenge is an opportunity to innovate
+          </p>
+        </Card>
       </div>
     </main>
+  );
+}
+
+function ProjectSection() {
+  return (
+    <Element name="ProjectSection" id="ProjectSection">
+      <main
+        id="ProjectSection"
+        className=" h-screen flex flex-col justify-center items-center font-bold gap-3"
+      >
+        <h1 className="text-white text-4xl">Projects</h1>
+        <div className="w-2/3 flex justify-center items-center gap-5">
+          <Project
+            title="Ecommerce"
+            description="An Ecommerce store"
+            githubUrl="https://github.com/bayethelungah/Ecommerce"
+            url=""
+            rawTags="Next.js,Typescript,SQL"
+          />
+          <Project
+            title="Genetic Simulation"
+            description="An simulation of an genetic algorithm"
+            githubUrl=""
+            url=""
+            rawTags="Java"
+          />
+          <Project
+            title="Chess"
+            description="an application to play chess"
+            githubUrl=""
+            url=""
+            rawTags="Typescript,HTML"
+          />
+        </div>
+      </main>
+    </Element>
   );
 }
 
@@ -104,8 +185,8 @@ function ContactInfo() {
               Linkedin
             </a>
           </ul>
-          <a href="mailto:bayethelungah03@gmail.com" className="text-white">
-            bayethelungah03@gmail.com
+          <a href="mailto:b_lungah@fanshaweonline.ca" className="text-white">
+            b_lungah@fanshaweonline.ca
           </a>
         </>
       </Card>
